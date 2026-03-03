@@ -1,0 +1,11 @@
+Cloud types:
+two types - Service Model and Deployment Model
+coming to service model -> IAAS,PAAS,SAAS
+IAAS->we have to maintain 50% and coming to cloud will maitain 50%
+PAAS->we have to maintain 20% and coming to cloud will maitain 80%
+SAAS->we have to maintain 0% and coming to cloud will maitain 100%
+Now comming to Deployment model
+PUBLIC - nothing like AWS and AZURE service 
+PRIVATE - physical servers.
+HYBRID - half part public and half part(secure part) private
+CUMMUNITY -> single DATACENTER they will maintain both companies.
