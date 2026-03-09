@@ -1,1 +1,15 @@
+EC2 server modificationa
+------------------------------
+if created ec2 server if you want to modify the things
+Name,instnase type,ebs volume,security group those are accept to modify
+But AMI,Keypair no chance to modify
 
+Modifications Security group
+---------------------------------
+if you add ANY WHERE IP4 it indicated allow very one
+if you add My ip address it will allow fro your system only
+if you want to give access to specific users laptop than we have to give that person laptop ip
+
+Where i have to find IP
+->google,https://whatismyipaddress.com/ you can use these site it will show your IP
+->security group ->custom->give ip address and save it
