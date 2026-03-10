@@ -20,3 +20,9 @@ how to change it
 12. timedatectl -> if you want to see details of your time
 13. timedatectl set-timezone Asia/Kolkata -> to change time zone
 14. date +"%d" -> to see only date
+----------------------------------------------------------------------------------------------------------------------------------------------
+HARDWARE COMMANDS 
+------------------------
+1. free -h -> to see the ram utilization
+2. dh -f  -> see the storage utilization
+3.
