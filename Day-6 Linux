@@ -1,0 +1,14 @@
+Linux
+==========
+
+SYSTEM COMMANDS
+-------------------
+1. sudo -i (or) sudo su -> change to root user
+2. exit (or) ctl + d ->come to pervious user.
+3. clear ->ctl + L -> to clear the screen
+4. uname -> to see current OS
+5. uname -r -> it shows os version
+6. uname -a -> it will show all details of os
+7. uptime -> to server running time and you can also see the user count also and load avg also.
+8. uptime -p -> it will show only server time.
+9. ip aadr (or) ip route (or) ifconfig -> to our private ip address
