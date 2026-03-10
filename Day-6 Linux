@@ -12,3 +12,11 @@ SYSTEM COMMANDS
 7. uptime -> to server running time and you can also see the user count also and load avg also.
 8. uptime -p -> it will show only server time.
 9. ip aadr (or) ip route (or) ifconfig -> to our private ip address
+note : Now in realtime there not display private ip like [root@ip172.67.8.90.0] they will change with content now we will check that 
+how to change it
+10. hostnamectl set-hostname "shasi" -> to change ip add to name
+    - after that exit from root user and again login to root user it will change lika [root@shasi]
+11. date -> to see todays date and time
+12. timedatectl -> if you want to see details of your time
+13. timedatectl set-timezone Asia/Kolkata -> to change time zone
+14. date +"%d" -> to see only date
