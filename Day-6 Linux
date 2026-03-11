@@ -23,6 +23,9 @@ how to change it
 ----------------------------------------------------------------------------------------------------------------------------------------------
 HARDWARE COMMANDS 
 ------------------------
-1. free -h -> to see the ram utilization
-2. dh -f  -> see the storage utilization
-3.
+1.lscpu : cpu information of our server
+2. top : used to get cpu utilization
+3. df -h : used to get the 8 volume details (used, available)
+4. free : used to get the free ram in our server
+5. free -m : used to convert the ram in MB
+6. free -h : used to ram info in human readable format
