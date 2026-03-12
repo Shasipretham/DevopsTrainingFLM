@@ -41,3 +41,5 @@ FIlE-COMMANDS
 7. cd .. -> it is used to one step back folder
 8. cd ../.. ->it is used to 2 step back folder
 9. mkdir -p shasi/pretham -> to create multiple folders at a time
+10. ll -> it will list the file in alphabatic order
+11. 11 -t ->it will list the files in time based
