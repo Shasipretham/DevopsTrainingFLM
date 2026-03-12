@@ -43,3 +43,5 @@ FIlE-COMMANDS
 9. mkdir -p shasi/pretham -> to create multiple folders at a time
 10. ll -> it will list the file in alphabatic order
 11. 11 -t ->it will list the files in time based
+12. cat>filename -> to add content in file
+13. cat>>filename -> add another name
