@@ -46,3 +46,4 @@ FIlE-COMMANDS
 12. cat>filename -> to add content in file
 13. cat>>filename -> add another name
 14. cat -n filename -> it will print with lines
+15. sed -n '3,7p' filename -> it will print lines between 3 to 7
