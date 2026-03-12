@@ -40,3 +40,4 @@ FIlE-COMMANDS
 6. cd -  -> if you want to perivous folder
 7. cd .. -> it is used to one step back folder
 8. cd ../.. ->it is used to 2 step back folder
+9. mkdir -p shasi/pretham -> to create multiple folders at a time
