@@ -47,3 +47,5 @@ FIlE-COMMANDS
 13. cat>>filename -> add another name
 14. cat -n filename -> it will print with lines
 15. sed -n '3,7p' filename -> it will print lines between 3 to 7
+16. ctrl+u -> to delete enterd commad ata time
+17. ctrl+a ->you will go to starting commnad
