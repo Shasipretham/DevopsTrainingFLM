@@ -36,3 +36,7 @@ FIlE-COMMANDS
 2. rm -f *.txt--> to remove files with was extaention .txt files
 3. history -> it will show all previouse commands you used.
 4. rmdir <dirname> -> remove directory
+5. cd -> if you comabck to rrot folder
+6. cd -  -> if you want to perivous folder
+7. cd .. -> it is used to one step back folder
+8. cd ../.. ->it is used to 2 step back folder
