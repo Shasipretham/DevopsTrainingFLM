@@ -45,3 +45,4 @@ FIlE-COMMANDS
 11. 11 -t ->it will list the files in time based
 12. cat>filename -> to add content in file
 13. cat>>filename -> add another name
+14. cat -n filename -> it will print with lines
