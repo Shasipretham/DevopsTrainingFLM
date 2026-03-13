@@ -49,3 +49,18 @@ FIlE-COMMANDS
 15. sed -n '3,7p' filename -> it will print lines between 3 to 7
 16. ctrl+u -> to delete enterd commad ata time
 17. ctrl+a ->you will go to starting commnad
+-------------------------------------------------------------------------------------------------------------------------------
+Editor Commands
+---------------
+1.vim shasi ->open file
+2.gg -> you want go 1st line
+3.G ->go to last line
+4.M -> middel line
+5. 3gg -> go to 3rd line
+6. :setnumber -> to show line numbers
+7. dd -> delete line
+8. 7dd -> it will delete 7 lines
+9. yy -> to copy curser line
+10.7yy -> to copy 7line from the curser
+11. p ->paste the data
+12. / word -> to check specific word
