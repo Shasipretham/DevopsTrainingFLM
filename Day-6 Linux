@@ -60,6 +60,7 @@ Editor Commands
 6. :setnumber -> to show line numbers
 7. dd -> delete line
 8. 7dd -> it will delete 7 lines
+9. %s/shasi/pretham/g -> to replave names
 9. yy -> to copy curser line
 10.7yy -> to copy 7line from the curser
 11. p ->paste the data
