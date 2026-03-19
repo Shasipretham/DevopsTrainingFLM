@@ -75,3 +75,9 @@ FIND COMMANDS
 4. find folder1 -type f -perm 777-> to find all full permmisos file
 5.find folder3 -type f ! -perm 777 -> it will show whichn file not have that permission
 6. find folder3 -type -f -user shasi -> to see file users
+=======================================================================================
+TREE COMMADS
+============/
+To use these we have to install tree
+sudo yum install tree -y
+1. tree -> ti will show  file structure
