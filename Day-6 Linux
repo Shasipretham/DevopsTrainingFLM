@@ -67,5 +67,7 @@ Editor Commands
 11. p ->paste the data
 12. / word -> to check specific word
 ================================================================================================
+FIND COMMANDS
+----------------
 1. find /root -type f -name shasi --> to check file in diectoy
 2. find /root -type d -name shasi --> to check directory
