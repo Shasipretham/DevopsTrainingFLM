@@ -60,8 +60,12 @@ Editor Commands
 6. :setnumber -> to show line numbers
 7. dd -> delete line
 8. 7dd -> it will delete 7 lines
-9. %s/shasi/pretham/g -> to replave names
+9. %s/shasi/pretham/g -> to replave name
+==============================================================================================
 9. yy -> to copy curser line
 10.7yy -> to copy 7line from the curser
 11. p ->paste the data
 12. / word -> to check specific word
+================================================================================================
+1. find /root -type f -name shasi --> to check file in diectoy
+2. find /root -type d -name shasi --> to check directory
