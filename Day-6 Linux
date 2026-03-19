@@ -71,3 +71,4 @@ FIND COMMANDS
 ----------------
 1. find /root -type f -name shasi --> to check file in diectoy
 2. find /root -type d -name shasi --> to check directory
+3. find folder2 -type f -name prethamfile -> to check file in sepecfic folder
