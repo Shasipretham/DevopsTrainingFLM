@@ -73,3 +73,4 @@ FIND COMMANDS
 2. find /root -type d -name shasi --> to check directory
 3. find folder2 -type f -name prethamfile -> to check file in sepecfic folder
 4. find folder1 -type f -perm 777-> to find all full permmisos file
+5.find folder3 -type f ! -perm 777 -> it will show whichn file not have that permission
