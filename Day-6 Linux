@@ -74,3 +74,4 @@ FIND COMMANDS
 3. find folder2 -type f -name prethamfile -> to check file in sepecfic folder
 4. find folder1 -type f -perm 777-> to find all full permmisos file
 5.find folder3 -type f ! -perm 777 -> it will show whichn file not have that permission
+6. find folder3 -type -f -user shasi -> to see file users
