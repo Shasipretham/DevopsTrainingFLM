@@ -1,0 +1,7 @@
+GIT FLOWING STRATAGIE
+========================
+1.Braches in production
+->main   -> production code
+->develop -> similar to production another copy
+->Feature -> add new feauters in code
+-> Release -> to test the code -> if code is running wellmit will pushed to main branch 
