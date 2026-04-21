@@ -5,3 +5,6 @@ GIT FLOWING STRATAGIE
 ->develop -> similar to production another copy
 ->Feature -> add new feauters in code
 -> Release -> to test the code -> if code is running wellmit will pushed to main branch 
+if it was working well in every env but coming to production it was getting fail
+then we will create another branch ike
+Hotfix or bugfix ->pull the code from main brach and we deployit again
