@@ -1,0 +1,11 @@
+1. docker rmi $(docker images) ->remove all docker images at a time
+2. Componests
+FROM -> it is used for run the oS
+LABEL -> to mention the project name
+MAINTAINER -> user name
+WORKDIR -> in which directory the container have to run
+COPY -> copy the files from container
+ADD -> it is aslo same like COPY but in COPY online urls will wont support
+      comming to add it will accept urls to
+RUN -> ti excute the command when iamges was creating
+CMD -> it also used to run the command but it will excutes when container was running
