@@ -11,3 +11,12 @@ RUN -> ti excute the command when iamges was creating
 CMD -> it also used to run the command but it will excutes when container was running
 ENTRYPOINT -> it also run commands in conatiner but it wont override CMD will override the values
   note: we can use only one cmd and one entrypoint only.
+
+ARG name=shasi
+-> it is used to pass varables when image was creating
+ENV name=shasi
+-> it is used for pass the varables when container was running
+* we can create multiple ARG and ENV
+we can add values on run time aslo
+->docker build -t imagename:tag . --build-arg=name="pretham"
+* we cant override env
