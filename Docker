@@ -9,3 +9,5 @@ ADD -> it is aslo same like COPY but in COPY online urls will wont support
       comming to add it will accept urls to
 RUN -> ti excute the command when iamges was creating
 CMD -> it also used to run the command but it will excutes when container was running
+ENTRYPOINT -> it also run commands in conatiner but it wont override CMD will override the values
+  note: we can use only one cmd and one entrypoint only.
