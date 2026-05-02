@@ -33,3 +33,15 @@ FROM nginx
 COPY --from=builder /shasi/dist/ /usr/share/nginx/html/
 CMD ["nginx", "-g", "daemon off;"]
 ----------------------------------------------------------------------------------------
+NODE -DOCKERFILE(LESS WEIGHT IMAGE)
+---------------------------------------------------------
+FROM node:alpine AS builder
+WORKDIR shasi/
+COPY package*.json .
+RUN npm install
+COPY . .
+RUN npm run build
+FROM nginx:alpine
+COPY --from=builder /shasi/dist/ /usr/share/nginx/html/
+CMD ["nginx","-g","daemon off;"]
+-----------------------------------------------------------------------------------------------------------------
