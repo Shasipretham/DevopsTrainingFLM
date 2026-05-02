@@ -20,3 +20,16 @@ ENV name=shasi
 we can add values on run time aslo
 ->docker build -t imagename:tag . --build-arg=name="pretham"
 * we cant override env
+------------------------------------------------------------------------------------------------------------------
+NODE-DOCKERFILE
+-----------------
+FROM node AS builder
+WORKDIR shasi/
+COPY package*.json .
+RUN npm install
+COPY . .
+RUN npm run build
+FROM nginx
+COPY --from=builder /shasi/dist/ /usr/share/nginx/html/
+CMD ["nginx", "-g", "daemon off;"]
+----------------------------------------------------------------------------------------
