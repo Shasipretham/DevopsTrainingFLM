@@ -45,3 +45,13 @@ FROM nginx:alpine
 COPY --from=builder /shasi/dist/ /usr/share/nginx/html/
 CMD ["nginx","-g","daemon off;"]
 -----------------------------------------------------------------------------------------------------------------
+PYTHON - DOCKERFILE
+----------------------------------------------
+FROM python
+WORKDIR shasi/
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY app.py .
+COPY . .
+CMD ["python","app.py"]
+--------------------------------------------------------------------------------------------------------
