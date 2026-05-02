@@ -71,3 +71,30 @@ COPY app.py .
 COPY . .
 CMD ["python","app.py"]
 ------------------------------------------------------------------------------------------------
+JAVA- DOCKER FILE
+------------------------
+FROM tomcat:8.0.20-jre8
+COPY tomcat-users.xml /usr/local/tomcat/conf
+COPY target/*.war /usr/local/tomcat/webapps/myweb.war
+-----------------------------------------------------------------------------------------
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+COPY target/*.jar app.jar
+EXPOSE 8080
+CMD ["java", "-jar", "app.jar"]
+---------------------------------------------------------------------------
+# Build stage
+FROM maven:3.8-openjdk-8 AS builder
+WORKDIR /app
+COPY pom.xml .
+RUN mvn dependency:go-offline
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Run stage - JAR version
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+===========================================================================
