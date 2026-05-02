@@ -98,3 +98,10 @@ COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ===========================================================================
+DATA BASE DOCKER FILE
+---------------------------
+FROM mysql/mysql-server-5.7
+EXPOSE 3306
+ENV MYSQL_USER=root
+ENV MYSQL_ROOT_PASSWORD=admin123
+COPY init.sql /docker-entrypoint-init.db/
