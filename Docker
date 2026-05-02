@@ -20,6 +20,12 @@ ENV name=shasi
 we can add values on run time aslo
 ->docker build -t imagename:tag . --build-arg=name="pretham"
 * we cant override env
+=====================================================================================================================
+Nodejs code: https://github.com/devops0014/nodejs-docker.git
+Python : https://github.com/devops0014/python-code-library-app.git
+Nginx/Httpd : https://github.com/devops0014/tic-tac-toe-docker.git
+Java code : https://github.com/devops0014/one.git
+==================================================================================================
 ------------------------------------------------------------------------------------------------------------------
 NODE-DOCKERFILE
 -----------------
