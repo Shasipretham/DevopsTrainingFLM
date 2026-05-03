@@ -105,3 +105,24 @@ EXPOSE 3306
 ENV MYSQL_USER=root
 ENV MYSQL_ROOT_PASSWORD=admin123
 COPY init.sql /docker-entrypoint-init.db/
+============================================================================================================
+NETWORKS
+------------
+When we have to use
+when we using microserices project like
+front <---->backend<---->database
+frontend and backend must we have to give communication
+at the same time backend to database also but there is no need to frontend-database on that time we will remove the connection betweeen
+frontend and database
+HOW CAN WE DO THAT?
+we will create seperate networks for every serives like
+frontend ,backend,database networks
+attach that networs to micro services
+to build communiction between them we have to connec t the networks,
+PRACTICAL WAY
+---------------
+docker network ls  -> to see networks
+docker network create networkname -> to create network
+docker network rm networkname  -> to remove network
+
+
