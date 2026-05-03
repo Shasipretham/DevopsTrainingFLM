@@ -124,5 +124,6 @@ PRACTICAL WAY
 docker network ls  -> to see networks
 docker network create networkname -> to create network
 docker network rm networkname  -> to remove network
+docker inspect continername | grep -i "network"
 
 
