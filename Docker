@@ -125,6 +125,26 @@ docker network ls  -> to see networks
 docker network create networkname -> to create network
 docker network rm networkname  -> to remove network
 docker inspect continername | grep -i "network"
-docker network attach networkname conatinername
+docker network connect networkname conatinername
+====================================================================================================================================================
+DOCKER VOLUMES
+------------------
+Why we have to use volume?
+it is noting like we are storing data in locally
+for ex:
+When container was running you may add some data it will stored but by default
+but when cantainer will delete automatically data also will be deleted 
+to solve that problem volume is on of the thing we have to use
+How it works?
+we will create one volume in locally we will attached that volume to container all the date will stored in that volume
+if container deleted data will safe on that volume
+if you create another new conntainer we will just mount that volume to that container thats it
+------------------------
+docker volume ls -> to see volumes
+docker volume create volname -> to create volume
+docker run -it -p 1111:80 --mount src=volname,destination=which folder you have to attach nginx   -> to mount volume
+docker volume rm vol name
+docker volume inspect volname
+=============================================================================================================================================
 
 
