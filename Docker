@@ -180,3 +180,8 @@ services:
     image: shaikmustafa/cycle
     ports:
       - "2222:80"
+---------------------
+to start all containers at a time 
+->docker-compose up -d
+to stop
+->docker-compose down
