@@ -135,6 +135,10 @@ for ex:
 When container was running you may add some data it will stored but by default
 but when cantainer will delete automatically data also will be deleted 
 to solve that problem volume is on of the thing we have to use
+Types of volumes?
+1.Named volumes
+2.Anonymous volumes
+3.blind volumes
 How it works?
 we will create one volume in locally we will attached that volume to container all the date will stored in that volume
 if container deleted data will safe on that volume
@@ -146,5 +150,10 @@ docker run -it -p 1111:80 --mount src=volname,destination=which folder you have 
 docker volume rm vol name
 docker volume inspect volname
 =============================================================================================================================================
-
+Blind volumes
+---------------
+host to container
+directly we will attach host directory to container dicrectory
+docker run -itd --name cont1 -p 1111:80 -v /root/shasi:/usr/share/nginx/html/
+==========================================================================================================================================
 
