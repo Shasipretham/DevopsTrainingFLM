@@ -156,4 +156,27 @@ host to container
 directly we will attach host directory to container dicrectory
 docker run -itd --name cont1 -p 1111:80 -v /root/shasi:/usr/share/nginx/html/
 ==========================================================================================================================================
-
+DOCKER COMPOSE
+----------------
+Why we have to use these?
+when you have a more that one container we have to stop or start one by one it will take long time
+but by using docker compose you can start and stop containers at time by using docker compose file
+Naming rules for Dockercompose file:
+docker-compose.yml
+docker-compose.yaml
+compose.yml
+compose.yaml--> docker compose will suport only those type of file name stucture.
+------------------------------------
+syntax
+------
+services:
+  food:
+    container_name: food
+    image: shaikmustafa/dm
+    ports:
+      - "1111:80"
+  instamart:
+    container_name: insta
+    image: shaikmustafa/cycle
+    ports:
+      - "2222:80"
