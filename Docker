@@ -185,3 +185,34 @@ to start all containers at a time
 ->docker-compose up -d
 to stop
 ->docker-compose down
+------------------------------------------------------------------------------------
+Docker compose file along with volumes and network with build processs
+------------------
+services:
+  bus:
+    container_name: bus_ticket
+    build: ./bus
+    ports:
+      - "1111:80"
+    networks:
+      - busnetwork
+    volumes:
+      - bus:/shasi/
+  flight:
+    container_name: flight_ticket
+    build: ./flight
+    ports:
+      - "2222:80"
+    networks:
+      - flightnetwork
+    volumes:
+      - flight:/shasi_flight/
+networks:
+  busnetwork:
+    driver: bridge
+  flightnetwork:
+    driver: bridge
+volumes:
+  bus:
+  flight:
+=========================================================================================================================
