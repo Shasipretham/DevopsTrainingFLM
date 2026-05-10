@@ -225,3 +225,26 @@ docker-compose start -> start contimers
 docker-compose stop -> to stop docker
 docker-compose config -> to compose file conf
 docker-compose logs -> to see logs
+==================================================================================================================
+env_file
+-------
+Why we have to add these .env file
+buy usimng
+env_file:
+  - ./.env
+to see that loging to conatiner and enter 
+-  printenv
+example:
+services:
+  bus:
+    container_name : bus
+    build : ./bustickets
+    ports :
+      - "1111:80"
+    networks :
+      - busnetwork
+    volumes:
+      - busvolumes:/opt/busimages
+    env_file:
+      - ./.env
+============================================================================================================
