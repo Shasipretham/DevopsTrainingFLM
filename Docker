@@ -216,3 +216,12 @@ volumes:
   bus:
   flight:
 =========================================================================================================================
+Docker-Compose -Commands
+---------------------------
+docker-compose build -> to create docker images
+docker-compose up -d -> to create comtainers
+docker-compose down ->to delete containers
+docker-compose start -> start contimers
+docker-compose stop -> to stop docker
+docker-compose config -> to compose file conf
+docker-compose logs -> to see logs
