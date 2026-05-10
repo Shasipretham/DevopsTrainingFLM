@@ -248,3 +248,53 @@ services:
     env_file:
       - ./.env
 ============================================================================================================
+final Docker compose file
+-----------------
+services:
+  bus:
+    container_name : bus
+    build : ./bustickets
+    ports :
+      - "1111:80"
+    restart: always
+    networks :
+      - busnetwork
+    volumes:
+      - busvolumes:/opt/busimages
+    env_file:
+      - ./.env
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          cpus: "0.25"
+          memory: 64M
+  movie:
+    container_name: movie
+    build: ./movie
+    ports:
+      - "2222:80"
+    restart: always
+    networks:
+      - movienetwork
+    volumes:
+      - movievolume:/opt/moviedata
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          cpus: "0.25"
+          memory: 64M
+networks:
+  busnetwork:
+      driver: bridge
+  movienetwork:
+      driver: bridge
+volumes:
+  busvolumes:
+  movievolume:
+========================================================================================================================
