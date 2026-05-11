@@ -1,0 +1,15 @@
+Ansible:
+-------
+it is an configuration management tool
+if you have 100 servers you install or update any thing one by one it will take so much time
+But by using ansible you can do with in a sec
+fot these we have take some config: 
+step:1
+you have to create password for root user
+->passwd root
+step:2
+you have to do changes in /etc/ssh/sshd_config
+passwordauthentication no -> yes
+PermitRootLogin prohibit-password->PermitRootLogin prohibit yes
+restart the sshd
+systemctl restart sshd
