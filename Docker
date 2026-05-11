@@ -298,3 +298,25 @@ volumes:
   busvolumes:
   movievolume:
 ========================================================================================================================
+DOCKER COMPOSE-> to create multiple services in singel host
+DOCKER SWARM ->to crreate singel service in multiple hosts
+DOCKER STACK -> to create multive services in multiple hosts
+------------------------------
+DOCKER SWARM
+------------
+we have to create muiltiple serviers
+singel manager node and multiple workers
+to attch that manger to mutliple workers
+
+docker swarm init-> it will create repo and generate one command that command in all worker nodes automatilcally it will 
+connected to worker nodes
+docker node
+docker node ls-> to see nodes
+docker service create --name shasi --publish 1111:80 shaikmustafa/dm  -> to run service
+docker service ls-> to see that service
+history
+docker service scale shasi=3-> to scale the service
+docker service ps shasi->to services in node they created
+
+history
+============================================================================================================================
