@@ -13,3 +13,32 @@ passwordauthentication no -> yes
 PermitRootLogin prohibit-password->PermitRootLogin prohibit yes
 restart the sshd
 systemctl restart sshd
+
+step:3
+Now we have to generate ssh key for communicate with another server
+we have to genefate in master server
+->ssh-keygen
+->/root/.ssh/   in these path key will be generateed
+-< now we havr to copy that key and add in slave servers
+ ssh-copy-id root@<slaveserver ip address>
+ex: ssh-copy-id root@172.31.35.132
+step:4
+we have add out slave servrs ip address to connect
+->cd /etc/ansible
+create file with name= hosts
+->add these content
+[dev]
+17.8.9.0
+->ansible all -m ping
+to check connections between master and slave
+Step-5
+Now we have to create ansible playbook
+shasiplaybook.yaml
+---
+ - hosts: dev
+   connection: ssh
+   tasks:
+  -   name:install git
+      yum: name=git state=present
+...
+->ansible-playbook shasiplaybook.yaml _. to run play book
