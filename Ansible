@@ -105,4 +105,58 @@ TO CREATE MULTIPLE USERS:
         -jenkins
         - user
 ==================================================================================
+INSTALL SERVERS,START SERVER,COPY FILES,DELELTE FILES,owner root permmisons to file
+===================================================================================
+---
+- hosts: dev
+  connection: ssh
+
+  tasks:
+  - name: to install git
+    yum:
+      name: git
+      state: present
+  - name: to install maven
+    yum:
+      name: maven
+      state: present
+  - name: creating a file
+    file:
+      path: "/root/pretham.txt"
+      state: touch
+  - name: create directory
+    file:
+      path: "/root/shasi"
+      state: directory
+  - name: create user
+    user:
+      name: shasi
+      state: present
+  - name: create group
+    group:
+      name: pretham
+      state: present
+  - name: create file with permissions
+    file:
+      path: "/root/thanu.txt"
+      state: touch
+      owner: shasi
+      group: pretham
+      mode: 777
+  - name: install nginx
+    yum:
+      name: nginx
+      state: present
+  - name: start webserver
+    service:
+      name: nginx
+      state: started
+  - name: copy file
+    copy:
+      src: "/root/shasi.yaml"
+      dest: "/opt"
+  - name: delete file
+    file:
+      name: "/root/thanu.txt"
+      state: absent
 
