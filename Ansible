@@ -61,4 +61,48 @@ ADD VARABLES
       name: {{xyz}}
       state: present
 ======================================================================================================
+HOW TO ADD FILES ,USERS ,DIRECTORYS
+---
+- hosts: dev
+  connection: ssh
+
+  tasks:
+  - name: to install git
+    yum:
+      name: git
+      state: present
+  - name: to install maven
+    yum:
+      name: maven
+      state: present
+  - name: creating a file
+    file:
+      path: "/root/pretham.txt"
+      state: touch
+  - name: create directory
+    file:
+      path: "/root/shasi"
+      state: directory
+  - name: create user
+    user:
+      name: shasi
+      state: present
+  - name: create group
+    group:
+      name: pretham
+      state: present
+============================================================
+TO CREATE MULTIPLE USERS:
+-----------------------
+- hosts: dev
+  connection: ssh
+  tasks:
+   - name:create user
+     user: name={{items}} state=present
+     with_items:
+        -shasi
+        -pretham
+        -jenkins
+        - user
+==================================================================================
 
