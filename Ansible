@@ -42,3 +42,23 @@ shasiplaybook.yaml
       yum: name=git state=present
 ...
 ->ansible-playbook shasiplaybook.yaml _. to run play book
+=============================================================================================
+ADD VARABLES
+===============
+---
+- hosts: dev
+  connection: ssh
+  vars:              #varables feild
+   - abc: git
+   - xyz: maven
+  tasks:
+  - name: to install git
+    yum:
+      name: {{abc}}
+      state: present
+  - name: to install maven
+    yum:
+      name: {{xyz}}
+      state: present
+======================================================================================================
+
