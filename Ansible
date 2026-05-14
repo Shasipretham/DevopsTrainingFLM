@@ -196,3 +196,23 @@ INSTALL GIT IS SPECIFIC OS
         state: present
       when: ansible_os_family="Redhat"
 ==========================================================================================
+IF YOU WANT TO EXCUTE SPECIFIC TASKS:
+----------------------------------------
+---
+---
+- hosts: dev
+  connection: ssh
+  tasks:
+    - name: install maven
+      yum:
+        name: maven
+        state: present
+      tags: build
+    - name: install tree
+      yum:
+        name: tree
+        state: present
+
+->ansible-playbook specfic.yaml --skip-tags=build (it will skip based tags)
+->ansible-playbook specfic.yaml --tags=build (run based on tags)
+=========================================================================
