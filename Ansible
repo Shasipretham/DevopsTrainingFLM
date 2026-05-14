@@ -215,4 +215,18 @@ IF YOU WANT TO EXCUTE SPECIFIC TASKS:
 
 ->ansible-playbook specfic.yaml --skip-tags=build (it will skip based tags)
 ->ansible-playbook specfic.yaml --tags=build (run based on tags)
-=========================================================================
+====================================================================================================
+I WANT TO RUN  SHELL SCRIPT
+------------------------------
+---
+- hosts: dev
+  connection: ssh
+  tasks:
+    - name: copy file
+      copy:
+        src: "/root/tomcat.sh"
+        dest: "/root"
+        mode: 777
+    - name: install tomcat
+      shell: nohup /root/tomcat.sh
+==========================================================================================
