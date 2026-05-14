@@ -230,3 +230,10 @@ I WANT TO RUN  SHELL SCRIPT
     - name: install tomcat
       shell: nohup /root/tomcat.sh
 ==========================================================================================
+ENCRYPT THE DATA
+====================
+-> ansible-vault encrypt <filemname>
+if you want to see enrypted data
+->ansible-vault veiw <filenme>
+to decrypt
+-> ansible-vault decrypt <filename>
