@@ -160,3 +160,39 @@ INSTALL SERVERS,START SERVER,COPY FILES,DELELTE FILES,owner root permmisons to f
       name: "/root/thanu.txt"
       state: absent
 
+============================================================================================
+Deploy basic project using ansible
+====================================
+---
+- hosts: dev
+  connection: ssh
+  tasks:
+    - name: install git in linux os
+      yum:
+        name: git
+        state: present
+    - name: install nginx
+      yum:
+        name: nginx
+        state: present
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+    - name: copy files to nginx path
+      copy:
+        src: "/root/index.html"
+        dest: "/usr/share/nginx/html/"
+===============================================================================================
+INSTALL GIT IS SPECIFIC OS
+---------------------------
+---
+- hosts: dev
+  connection: ssh
+  tasks:
+    - name: install git in linux os
+      yum:
+        name: git
+        state: present
+      when: ansible_os_family="Redhat"
+==========================================================================================
