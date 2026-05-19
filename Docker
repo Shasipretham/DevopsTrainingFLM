@@ -317,6 +317,7 @@ docker service ls-> to see that service
 history
 docker service scale shasi=3-> to scale the service
 docker service ps shasi->to services in node they created
+docker service rm <servicename> -> to delete service
 
 history
 ============================================================================================================================
