@@ -319,5 +319,17 @@ docker service scale shasi=3-> to scale the service
 docker service ps shasi->to services in node they created
 docker service rm <servicename> -> to delete service
 
+if you want to update you image without downtime
+-> docker service update --image <new image name> <service name>
+if you want to rollback 
+-> docker service rollback <service name>
+note: it will only rollback to previous version
+if you want add new worker node
+->docker swarm join-token worker
+
+if you want to remove workernode
+Go to that workernode
+-> docker swarm leave
+
 history
 ============================================================================================================================
