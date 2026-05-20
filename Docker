@@ -333,3 +333,58 @@ Go to that workernode
 
 history
 ============================================================================================================================
+DOCKER-STACK
+============
+-> why we have to use docker stack?
+-> to deploy multiple containers into multple servers
+----------------------------------
+services:
+  bus:
+    image: shaikmustafa/dm
+    ports:
+      - "1111:80"
+    volumes:
+      - bus:/opt/shasi/
+    networks:
+      - busnetwork
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          cpus: "0.25"
+          memory: 64M
+  cycle:
+    image: shaikmustafa/cycle
+    ports:
+      - "2222:80"
+    volumes:
+      - cycle:/opt/shasi
+    networks:
+      - cyclenet
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          cpus: "0.25"
+          memory: 64M
+
+networks:
+  busnetwork:
+    driver: overlay
+    attachable: true
+  cyclenet:
+    driver: overlay
+    attachable: true
+volumes:
+  bus:
+  cycle:
+-------------
+to run these these stack file
+->docker stack deploy -c compose.yaml <service name>
+
