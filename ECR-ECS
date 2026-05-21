@@ -1,0 +1,27 @@
+ECR(Elastic container registry)
+ECS(Elastic container service)
+Why ECR?
+it is nothing like docker hub account to store image but it is from AWS SERVICE PROVIDER
+HOW CAN I STORE THE IMAGES?
+We have to create docker image in EC2
+after we have to create iam role to give permissions to EC2
+->IAM ROLE->AWS serviec->ec2->select ecr full and ecs full permissions-> save it
+->ec2->Actions->security->modify role and selecte these create role
+After we have to create ecr registry?
+-> ecr>create registry->give reg name-> create
+->open that registred ecr-> click view commands
+it will commands like these
+COm1: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 082569478325.dkr.ecr.us-east-1.amazonaws.com
+note:com1 will work after creating iam role and attach 
+com2: docker build -t shasi .
+com3: docker tag shasi:latest 082569478325.dkr.ecr.us-east-1.amazonaws.com/shasi:latest
+com4: docker push 082569478325.dkr.ecr.us-east-1.amazonaws.com/shasi:latest
+Now you can check that registry image was stored or not.
+==================================================================================================================
+why ECS?
+To run the containers using that ecr images.
+How can i create ECS?
+->ecs->create cluster->give name and create
+->create task defenation->name->select cpu ram->vpc->subnets->security group->cont name->ecr image URI->create
+->Open created cluster->inside that create service-> select that task defenation->select replicas and create
+->now you can open task there will show replicas you check using there public ips
