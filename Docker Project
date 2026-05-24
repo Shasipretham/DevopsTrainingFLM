@@ -1,4 +1,34 @@
-DOCKER PROJECT WITH JAVA
+SonarQube Scanner plugin version 2.11 or later is required.
+
+From the Jenkins Dashboard, navigate to Manage Jenkins > Manage Plugins and install the SonarQube Scanner plugin.
+
+Back at the Jenkins Dashboard, navigate to Credentials > System from the left navigation.
+
+Click the Global credentials (unrestricted) link in the System table.
+
+Click Add credentials in the left navigation and add the following information:
+
+Kind: Secret Text
+
+Scope: Global
+
+Secret: Generate a token at User > My Account > Security in SonarQube, and copy and paste it here.
+
+Click OK.
+
+From the Jenkins Dashboard, navigate to Manage Jenkins > Configure System.
+
+From the SonarQube Servers section, click Add SonarQube. Add the following information:
+
+Name: Give a unique name to your SonarQube instance.
+
+Server URL: Your SonarQube instance URL.
+
+Credentials: Select the credentials created during step 4.
+
+Click Save
+=================================================================================================================================
+----DOCKER PROJECT WITH JAVA
 pipeline {
  agent {
  node {
