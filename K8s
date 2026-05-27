@@ -1,1 +1,25 @@
+What is K8s?
+it is an orchetirtion tool which run containers as pods.
+Why we have to use these?
+To give zero downtime
+To rollback our previous version of code
+
+K8s Arch:
+----------------
+There will be kubernets master
+components:
+API server
+Sheduler
+etdc
+Controllemanager
+how it works in backend
+->when run command by devop engg to create pod
+->req is go for Kubenetees master
+->API server will take that reqest from Devops engineer
+->after that request will store in etdc-> it will act as data base it is containe full information
+->Now sheduler will take that req and sheduler will deside in place pod have to create in which worker node.
+-> how sheduler will deside? it will deside based on resources.
+->sheduler will only shedule the task it will say to api server lets create pod workernode 2
+-> api server say to kubelt to create pod actual pod will be creatded by Kubelet it is in worknode
+->
 
