@@ -21,5 +21,21 @@ how it works in backend
 -> how sheduler will deside? it will deside based on resources.
 ->sheduler will only shedule the task it will say to api server lets create pod workernode 2
 -> api server say to kubelt to create pod actual pod will be creatded by Kubelet it is in worknode
-->
+->after kubectl created a pod it will inform to api server and api will inform to etdc data the data of pod.
+->kube-proxy will manintain networks
+
+Why controll manager?
+3 type controllers it will manintain
+->replicas controller
+->node controller
+->service controller
+_> will watch all things in k8s
+->controller will send req to to controllers for every 5sec it will wait 40 sec and and it will recreate it
+
+What is pod?
+->it is the smallest componet in k8s
+->group of containers
+how can we create pod?
+immperative->drectly with command
+Declerative->write manifest file to create pod
 
