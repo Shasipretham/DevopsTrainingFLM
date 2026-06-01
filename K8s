@@ -64,4 +64,30 @@ sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-a
 
 set up is done
 --------------------------------------------------------------------------
+Now we will create pod using immperative method
+------------------------
+->kubectl run <pod-name> --image=nginx
+->kubectl get pods -> to see pods
+->kubectl get pods -o wide ->to see total info of pods
+->kubectl get pods -o yaml -> to see exteral details of pod
+->kubectl describe podname 
+========================================================================================================================================
+Now we will create pod using Declaritive method
+----------------------------------------------
+we hae to write manifest file to these
+-->kubectl api-resources --> to see the API VERSION
+file
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-1
+spec:
+  containers:
+    - name: mycont
+      image: nginx
+      ports:
+        - containerPort: 80
+==============================================================================================
+
 
