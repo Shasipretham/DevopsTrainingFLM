@@ -71,6 +71,7 @@ Now we will create pod using immperative method
 ->kubectl get pods -o wide ->to see total info of pods
 ->kubectl get pods -o yaml -> to see exteral details of pod
 ->kubectl describe podname 
+-> kubectl delete pod podname
 ========================================================================================================================================
 Now we will create pod using Declaritive method
 ----------------------------------------------
@@ -88,6 +89,8 @@ spec:
       image: nginx
       ports:
         - containerPort: 80
+------------------------------
+->kubectl create -f ppod.yaml
 ==============================================================================================
 
 
