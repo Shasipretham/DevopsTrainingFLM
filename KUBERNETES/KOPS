@@ -1,1 +1,102 @@
+Why we have to use kops?
+it also one of the self managed service as like minikube
+but in minikube we create nodes in singel server or same server
+but comming to kops with create external nodes for that.
+to install
+    1     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+    2  chmod +x kubectl
+
+    3  mv kubectl /usr/local/bin/
+
+    4  curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+
+    5  chmod +x kops
+
+    6  sudo mv kops /usr/local/bin/kops
+
+    7  ll
+
+    8  aws s3 ls
+create s3 bucket why we have to create these s3 bucket?
+to store clusters data
+    8.aws s3 mb s3://<bucketname>
+
+    9  export KOPS_STATE_STORE=s3://mustafa.devops77flm
+
+   10  kops create cluster --name shasi.k8s.local --zones=us-east-2a,us-east-2b --master-size=c7i-flex.large --master-count=1 --master-volume-size=20 --node-size=t3.micro --node-count=2 --node-volume-size=20 --image=ami-0fe18bc3cfa53a248
+
+   11  kops update cluster --name mustafa.k8s.local --yes --admin
+
+   12  kubectl get no
+
+   13  kops get cluster
+
+   14  history
+===============================================================
+LABELS
+------------
+Why we have to use labels?
+
+it is one of the identification thing for your pods
+use these label you filter your pods
+if you want to delete group of pods of you mention label automatically based on label it 
+will delete every thin
+how to create?
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+  labels:
+    app: frontend
+spec:
+  containers:
+    - name: mycont
+      image: shaikmustafa/dm
+      ports:
+        - containerPort: 80
+->kubectl get pods --show-labels--> it will show every label
+->kubectl get pod -l app=frontend -> to see specific labels pod
+->kubectl label pod <podname> env=project-> to attach label after creation
+->kubectl label pod <podname> env - -> if you want to remove label
+->kubectl label node <node name> node=worker1
+=======================================================================================
+NODE-SELECTOR
+----------------
+Why node selector?
+Actually by default sheduler will deside to create pod
+but i want to take the chance to create in specific worker node
+that why we have create label for wokernode use that we have to add node selecetor
+if there is no enough resources for selected node?
+it will o for pending stage
+->kubectl label nodes i-1223r3wttwtysy node=worker1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod-1
+  labels:
+    app: frontend
+spec:
+  nodeSelector:
+    node: worker1
+  containers:
+    - name: mycont-1
+      image: shaikmustafa/dm
+      ports:
+        - containerPort: 80
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+NOTE: dont forgot to delete the cluster after practice
+1. export KOPS_STATE_STORE=s3://<your-bucket-name>
+2. kops get cluster
+3. kops delete cluster --name cluster-name --yes
 
