@@ -1,0 +1,94 @@
+What is K8s?
+it is an orchetirtion tool which run containers as pods.
+Why we have to use these?
+To give zero downtime
+To rollback our previous version of code
+
+K8s Arch:
+----------------
+There will be kubernets master
+components:
+API server
+Sheduler
+etdc
+Controllemanager
+how it works in backend
+->when run command by devop engg to create pod
+->req is go for Kubenetees master
+->API server will take that reqest from Devops engineer
+->after that request will store in etdc-> it will act as data base it is containe full information
+->Now sheduler will take that req and sheduler will deside in place pod have to create in which worker node.
+-> how sheduler will deside? it will deside based on resources.
+->sheduler will only shedule the task it will say to api server lets create pod workernode 2
+-> api server say to kubelt to create pod actual pod will be creatded by Kubelet it is in worknode
+->after kubectl created a pod it will inform to api server and api will inform to etdc data the data of pod.
+->kube-proxy will manintain networks
+
+Why controll manager?
+3 type controllers it will manintain
+->replicas controller
+->node controller
+->service controller
+_> will watch all things in k8s
+->controller will send req to to controllers for every 5sec it will wait 40 sec and and it will recreate it
+
+What is pod?
+->it is the smallest componet in k8s
+->group of containers
+how can we create pod?
+immperative->drectly with command
+Declerative->write manifest file to create pod
+==============================================================================================
+In K8s there is type of servies
+----------------------------------
+self-managed service->minikube,kops
+Manages service->Eks,aks,gks
+kubectl->cli for k8s
+--------------------------------------------------------------------
+install minikube->c7ifx
+------------
+Minicube-> it is used to maintiane singel node cluster
+->create ec2
+->install docker ->yum install docker -y && systemctl start docker
+->install minikube ->curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+-> to check version -> minikube version
+->to start minikube-> minikube start -> but it will get error when start withnroot user
+-> we have to start with drivers->minikube start --driver=docker --force
+-> minikube status -> to check statue is was started or not
+-> we can also install kubectl(it is cli for k8s)
+-> curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+->chmod +x kubctl
+->mv kubctl /usr/local/bin
+
+
+set up is done
+--------------------------------------------------------------------------
+Now we will create pod using immperative method
+------------------------
+->kubectl run <pod-name> --image=nginx
+->kubectl get pods -> to see pods
+->kubectl get pods -o wide ->to see total info of pods
+->kubectl get pods -o yaml -> to see exteral details of pod
+->kubectl describe podname 
+-> kubectl delete pod podname
+========================================================================================================================================
+Now we will create pod using Declaritive method
+----------------------------------------------
+we hae to write manifest file to these
+-->kubectl api-resources --> to see the API VERSION
+file
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-1
+spec:
+  containers:
+    - name: mycont
+      image: nginx
+      ports:
+        - containerPort: 80
+------------------------------
+->kubectl create -f ppod.yaml
+==============================================================================================
