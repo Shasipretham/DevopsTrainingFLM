@@ -88,15 +88,75 @@ spec:
         - containerPort: 80
 
 ------------------------------------------------------------------------------
-
-
-
-
-
-
-
 NOTE: dont forgot to delete the cluster after practice
 1. export KOPS_STATE_STORE=s3://<your-bucket-name>
 2. kops get cluster
 3. kops delete cluster --name cluster-name --yes
+========================================================================================================================
+SERVICE
+========
+why service?
+when project was running in pod it was not expose directly
+to expose you project we have to use service
+
+three types of service:
+1.clusterIP->it will expose pod in internal server
+2.nodeport-> it will expose pod in external and internal it will provie one ip address(staticip&nodeport)
+3.loadbalancer-> it will expose pod externally and internally it will genaerate(staticip&nodeport,DNS) to 
+
+clusterIP
+------------
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myservice-lb
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - port: 1111
+      targetPort: 80
+------------------------------------------------
+NodePort
+--------
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myservice-lb
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+    - port: 1111
+      targetPort: 80
+	  nodePort: between 30000-32767
+-------------------------------------------------------
+Loadbalancer
+------------
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myservice-lb
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+    - port: 1111
+      targetPort: 80
+	  nodePort: between 30000-32767
+===================================================
+Why nodeport between 30000-32767
+
+Ports 1-1024 are reserved for system daemons and well-known services (SSH:22, HTTP:80, HTTPS:443, DNS:53, etc.)
+
+Ports 1024-30000 are often used by applications and system services
+
+Starting at 30000 leaves plenty of room for normal application ports
+==================================================================================================================================
 
