@@ -159,4 +159,42 @@ Ports 1024-30000 are often used by applications and system services
 
 Starting at 30000 leaves plenty of room for normal application ports
 ==================================================================================================================================
+====================================================================================================================
+Deployment
+------------------
+why we have to use Deployment?
+if you want to do auto scale or rollback to pervious version these is the possible way to do that
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: mycont
+          image: shaikmustafa/dm
+          ports:
+            - containerPort: 80
+--------------------------------------------------------
+-> kubectl scale deploy mydeploy --replicas=4
+->kubectl set image deploy mydeploy cont1=shaikmustafa/dm
+------------------------------------------
+i want to rollout to previous version?
+->kubectl rollout history deploy mydeploy--> it will previous version
+->i want deploy version 1
+->kubectl rollout undo deploy mydeploy --to-revision=1
+->kubectl rollout status deploy mydeploy
+if you want to ad any annotaions
+->kubectl annotate deploy mydeploy kubernetes.io/change-cause='roll backto version 1" --overwrite
+
+======================================================================================================
 
