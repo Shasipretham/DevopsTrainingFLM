@@ -275,3 +275,18 @@ spec:
             - containerPort: 80
 
 =========================================================================================================================
+=========================================================================================================================
+Namespaces:
+--------------
+it is used for set the deployment in particular environment
+by deafult there same namesece
+default ->if you dont mention it will create by default namespace
+kubenode-lease-> out nodes health info will store here
+kube-public-> if you ant to use pod in every namespace we have to use these
+kube-system: it is used to all k8s config will done in these namespces
+
+->kubectl create ns mynamespace-> to create
+->kubectl create -f pod.yaml -n mynamespace-
+->kubectt delete ns mynamespace-
+=============================================================================================================================
+
