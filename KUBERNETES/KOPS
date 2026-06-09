@@ -197,4 +197,81 @@ if you want to ad any annotaions
 ->kubectl annotate deploy mydeploy kubernetes.io/change-cause='roll backto version 1" --overwrite
 
 ======================================================================================================
+======================================================================================================
+AUTO SCALING
+------------
+two type:
+Horizantal scaleing-> it will increse no of servers if server limit is reached
+Vertical scaling> it will server capacity if limit is reached
 
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: autoscale
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mydeploy
+  minReplicas: 2
+  maxReplicas: 5
+
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+->kubectl get hpa hpaname
+->kubectl describe hpa hpaname
+================================================================================================
+STATEFULLSET and STATELESSSET
+-----------------------------
+-> in statefullset if you cretaed pod using statefullset we cannot lost the data if cantainer is deleted
+-> in statelessset we can loss the data when cintainer was deleted like Deployment
+->statefullset mostt used for DATA BASES
+
+apiVersion: apps/v1
+kind: StateFullSet
+metadata:
+  name: mystate
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: mycont
+          image: shaikmustafa/dm
+          ports:
+            - containerPort: 80
+==============================================================================================
+DeamonSet
+--------------
+it is used for monitoring the service how many pods creating it will watch the deployemnt
+apiVersion: apps/v1
+kind: DeamonSet
+metadata:
+  name: mydemon
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: mycont
+          image: shaikmustafa/dm
+          ports:
+            - containerPort: 80
+
+=========================================================================================================================
