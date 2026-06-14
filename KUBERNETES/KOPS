@@ -289,4 +289,318 @@ kube-system: it is used to all k8s config will done in these namespces
 ->kubectl create -f pod.yaml -n mynamespace-
 ->kubectt delete ns mynamespace-
 =============================================================================================================================
+=============================================================================================================================
+VOLUMES:
+-----------
+why we have use volumes?
+if in realtime you data will store in container if container was deleted your data will also deleted
+to retrive that issue volumes is best option
+
+4 types off volumes
+---------------------
+1->Empty volume->these volume will create in side the pod if pod was deleted the data also will be deleted
+2->HostVolume-> it will stored in nodes if pods deteleted data will stored in node..if incase node will be deleted data also will be delete
+3->PV and PVC ->it will store is cloud like AWS EBS->if node deleted or pod deleted you data will be safe(realtime we will use these)
+
+Empty volumes
+-------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: mycont
+          image: shaikmustafa/dm
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: "/tmp/jenkins"
+              name: devops
+        - name: mycont2
+          image: nginx
+          command: ["/bin/bash", "-c", "while true;do echo welcome to devops; sleep 10; done;"]
+          volumeMounts:
+            - mountPath: "/opt/shasi"
+              name: devops
+      volumes:
+        - name: devops
+          emptyDir: {}
+===================================================================================================
+HOST PATH:
+-=======
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: mycont
+          image: shaikmustafa/dm
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: "/tmp/jenkins"
+              name: devops
+        - name: mycont2
+          image: nginx
+          command: ["/bin/bash", "-c", "while true;do echo welcome to devops; sleep 10; done;"]
+          volumeMounts:
+            - mountPath: "/opt/shasi"
+              name: devops
+      volumes:
+        - name: devops
+          hostPath:
+			path: /opt/shasi
+============================================================================================================
+Presistent Volume @ Presitent volume Clime
+---------------------------------------------
+in these we will store our data in EBS volumeS
+
+100gb data from EBS->we have to create PV's from ebs like
+
+pv-1
+pv-2
+pv-3from these pv's we have to create PVC -> we have to attach these PVC to pod
+
+step1-> creta ebs in EBS VOLUMES->aws account ->ebs vlome ->create
+step2->create pv
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mypv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  awsElasticBlockStore:
+    volumeID: vol-0d3531df15bffd349
+    fsType: ext4
+----------------------------------------------
+step-3 -> create pvc from pv
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+------------------------------------------------
+step-4 we have to attach PVC to pod or deployement
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: mycont
+          image: shaikmustafa/dm
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: "/tmp/jenkins"
+              name: devops
+        - name: mycont2
+          image: nginx
+          command: ["/bin/bash", "-c", "while true;do echo welcome to devops; sleep 10; done;"]
+          volumeMounts:
+            - mountPath: "/opt/shasi"
+              name: devops
+      volumes:
+        - name: devops
+          persistentVolumeClaim:
+			claimName: mypvc
+===================================================================================
+CONFIG MAPS and SECRETS
+-----------------------
+why config maps?
+when you want send data into container we have to use config
+like
+DB_NAME: shasi
+PORT: 5000
+
+for confedetial info will use sercrets
+for non-confedetial info we will use config
+config maps:
+-------------
+we can create two ways 
+1.IMMPERATIVE
+2.DECLERATIVE(Minfestfiles)
+
+kubectl create cm firstdm --from-literal=env=dev --from-literal=port=5000
+->kubectl get cm
+->kubectl describe cmname-> to see values
+way-2
+-----create one file with .env extention
+-->kubectl create cm seco=ntcm --from-env-file=filename
+-------------------------------------------------------
+DECLERATIVE
+===========
+creta yaml filen
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconf
+data:
+  D_NAME: "shasi"
+  PORT: "5000"
+------------------------------------------------------------------
+Now attach that configfile to pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+    - name: mycont
+      image: shaikmustafa/dm
+      ports:
+        - containerPort: 80
+      envFrom:
+        - configMapRef:
+            name: firstcm
+=================================================================
+SECRETS
+-------
+->kubectl create secret generic mysecret  --from-literal=username=shasi --from-literal=password=pretham@1234
+->kubectl get secrets
+->kubectl get secret -o yaml
+also we can create by using manfestfile
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconf
+data:
+  D_NAME: <we will enter encrypted data>
+  PORT: <we will enter encrypted data>
+--------------------------
+to encrypt that values
+-------
+echo -n "shasi" | base64
+it will give encrypted value
+-------------------
+attach secret to pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+    - name: mycont
+      image: shaikmustafa/dm
+      ports:
+        - containerPort: 80
+      envFrom:
+        - secretRef:
+            name: mysec
+==============
+if you want to decode
+---------------------
+echo "ecrpyvalue" | base64 -d
+==========================================================
+Resource Quata:
+----------------
+what is resource?
+it is nothing like ram,cpu,memory
+Why resource quote?
+whem you run pod or container in server you didint mention resource all limit will be taken by first conatiner
+if is runs like these you can phase some problems with another container.
+
+Advantages of these?
+1.node have 4cpu 8gb ram
+1 micro serive have less traffic another 2 micro service have high traffic on that time
+i will give 1 cpu 3gb ram for micro ser-1 and 3 cpu 5gb ram for micro-sev-2
+
+first we have to attach Resource Quoata for namespace then we have to use
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: myreq
+  namespace: dev
+spec:
+  hard:
+    limits.cpu: "500m"
+    requests.cpu: "250m"
+    limits.memory: "100Mi"    # Changed: Mi (Mebibytes)
+    requests.memory: "50Mi"    # Changed: Mi (Mebibytes)
+-------------------------------------------------
+Note : onec you attached these resource quote you have to mention resources for pod or deployment creation
+if not not enterd it will get error
+--------------------------------------------------------------------------------------------------------
+Now we wil creating by using that resources
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeply
+  namespace: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: mycont
+          image: shaikmustafa/dm
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "50Mi"
+            limits:
+              cpu: "200m"
+              memory: "100Mi"
+==========================================
+if you want to check remining resorces
+you see that like
+kubectl describle ns <nsname>
+================================================
+K8S QoS
+-----------
+three types
+Granteed: if you give same limits for reqests and limits it be fine in every time
+bursted:if you give diff limits for request and limits there as chance to remove these pod
+Besteffor: if you didnt metion resorces and limits it will be totally in danger zones
+
+why those will happen?
+because of storage and cpu adjustments/
+================================================================================================
 
