@@ -603,4 +603,288 @@ Besteffor: if you didnt metion resorces and limits it will be totally in danger 
 why those will happen?
 because of storage and cpu adjustments/
 ================================================================================================
+================================================================================================
+HELM CHARTS
+---------------
+what is HELM?
+it is package manager tool in kubernetes,it will maintain packeges as manifestfiles
+
+example :
+you write 5 manifest files for dev anothr 5 for test and another 5 for prod
+it is hard to manage that much of files right that way we will use helm chart
+
+install helm charts
+--------------------
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4
+chmod 700 get_helm.sh
+./get_helm.sh
+----------------
+step-1 
+-----
+helm create shasi ->to create helm chart
+when you run these command it will generate two folders
+[root@ip-172-31-19-204 shasi]# ls
+Chart.yaml  charts  templates  values.yaml
+-----------------------------------------------------------------------------------------
+TO DEPLOY PROJECT
+------------------
+-> in templates there all manifest file
+->Now you can pass the values in VALUES.YAML
+->now we can deploy to dploy the file we have to stay in where was the values.yaml file stageed
+->helm install myapp .
+now you can check the pods
+->helm uninstall myapp -> it will be uninstalled
+=============================================================================
+UPGRADE THE DEPLOYED PROJECT
+-----------------------------
+->values.yaml do changes and
+->helm upgrade myapp .
+-> it will updated
+==============================================================================
+ROLLBACK TO PREVIOUS DEPOLYMENT
+================================
+->helm history myapp -> it will show all versions
+->helm rolllback myapp 1(version name)->it will rollbacked to previous version
+===================================================================================
+MANAGE SERVICES
+----------------
+if want to manage diff environments using helm chart is very easy
+just create 3file and copy content from values.yaml to values-dev.yaml,values-test.yaml,values-prod.
+
+->cp value.yaml value-dev.yaml value-test.yaml value-prod.yaml
+cp values.yaml values-dev.yaml
+   54  cp values.yaml values-test.yaml
+   55  cp values.yaml values-prod.yaml
+   58  vi values-dev.yaml
+   59  vi values-test.yaml
+   60  kubectl get ns
+   61  kubectl create ns test
+   62  kubectl create ns prod
+   63  helm install myapp-dev . -f values-dev.yaml -n dev
+   64  kubectl get pods
+   65  kubectl get pods -n dev
+   66  kubectl get svc -n dev
+   67  helm install myapp-dev . -f values-test.yaml -n test
+   68  helm install myapp-dev . -f values-prod.yaml -n prod
+   69  kubectl get svc -n prod
+   70  kubectl get svc -n test
+->if you want o check is ther any systex issue
+-> helm lint myapp
+these way to create managing services
+===============================================================================================================
+Now we can install prometues and Graphana
+---------------------------------------
+step-1 install helm
+step-2 install metrics
+->kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+to check created or not
+->ubectl get pods -n kube-system
+->kubectl get deployment metrics-server -n kube-system
+----------------------------------------------------------------------
+step-3 install prometioues
+->helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+->helm repo update
+->helm repo list
+Now create prometiouesname space
+->kubectl create namespace prometheus
+->kubectl get ns
+Now install prometioues
+->helm install prometheus prometheus-community/prometheus --namespace prometheus --set alertmanager.persistentVolume.storageClass="gp2" --set server.persistentVolume.storageClass="gp2"
+prometiues was installed
+-------------------------------------------------------------------------------------------------------------------
+Install GRFANA
+----------------
+kubectl create namespace grafana
+helm repo add grafana https://grafana.github.io/helm-charts
+helm install grafana grafana/grafana --namespace grafana --set persistence.storageClassName="gp2",persistence.enabled=true,adminPassword='EKS!sAWSome',service.type=LoadBalancer
+
+
+itf you want to acesss grafana
+kubectl get service -n grafanacopy dns and loginin
+we have to add data source from prometioues
+click data source->add prometioues
+we have to add prometioues server URL
+http://prometheus-server.prometheus.svc.cluster.local/
+click save and test
+
+now we have ti import data
+->dashboard->import->add port number->6417->click load then it will come dashboard
+->select ptoetion and start
+it will store only pod and svc data
+
+---------------------------------------------------------------------
+now i want to no memory useage and those things then i have to add another dqshbord
+->dashboard->import->1860port->load_.storage cpu data
+->dashboard->import->1860port->load-> to see overall data
+============================================================================
+HOST OUR OWN HELM Chart
+---------------------------
+just creeate project using helm charts
+after we have to pack that helm chart
+->helm package myapp->then it will creeta tar.gz file
+and also create index file
+->helm repo index .
+now create one empty repo in github and clone ti you server
+and move that index and tar file to your repo folders
+git add *
+git commit -m "addebde tar files" .
+git push origin main
+it was user name enter
+ask pasword
+ create classic token give code will be pushed
+after goto repo setting
+->pages->change branch to ->main-> wait for some time it will gerate one url
+------------------------------------------------------------------------------
+Now using that url we can create helm project in another clustr
+->helm repo add myapp https://shasipretham.github.io/myhelm/
+->helm repo ls _.to check
+->helm install reponame myapp
+
+
+
+
+
+
+
+
+
+====================================================================================================
+DEPLOYMENT STRATAGIES
+------------------------
+4 types of deployments will be there
+->Canary Deployment: we can deploy on project as like percentage model 70% v1 and 30% v2
+->Redeploy deployemnet->delete previoues version totally and deploy new version(we dont use in realtime it will take downtime)
+->Rollback deployement-> when we done rollback it deploy step by step it will increase version pod by pod
+->Blue green deployment: in blue there is a production v1 code,in green there will v2 
+
+=====================================================================================================
+BLUE GREEN Deployment
+-------------------------
+[root@ip-172-31-18-58 ~]# cat bluedeploy.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeployblue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: v1
+  template:
+    metadata:
+      name: myblue
+      labels:
+        app: v1
+    spec:
+      containers:
+        - name: mycont1
+          image: shaikmustafa/dm
+          ports:
+            - containerPort: 80
+----------------------------------------------------------------------------------------------------
+[root@ip-172-31-18-58 ~]# cat greendeploy.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mygreen
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: v2
+  template:
+    metadata:
+      name: mycontgreen
+      labels:
+        app: v2
+    spec:
+      containers:
+        - name: mycontee
+          image: shaikmustafa/cycle
+          ports:
+            - containerPort: 80
+---------------------------------------------------------------------------------------------------
+[root@ip-172-31-18-58 ~]# cat service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: myservice
+spec:
+  type: LoadBalancer
+  selector:
+    app: v2
+  ports:
+    - port: 1111
+      targetPort: 80
+======================================================================================================
+CANARY DEPOYEMENT
+-----------------
+for these we hav eto use tool like istio
+
+step-1
+------
+we have to attach the istio label fir name space
+->kubectl label namespace default istio-injection=enabled
+install istio
+--------------
+curl -L https://istio.io/downloadIstio | sh -
+cd istio-1.28.1
+export PATH=$PWD/bin:$PATH
+------------------
+to start istio
+->istioctl install --set profile=demo -y
+==================================================
+after starting
+Now you create a pod' it willcreate 2 comtainers another is envoye(helper container)
+--------------------------------
+cd istio-1.28.1
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+----------------------------------------------------------
+by default it will give ClusterIp to expose we have to change to LoadBalancer
+kubectl patch svc productpage -p '{"spec": {"type": "LoadBalancer"}}'
+----------------------
+Create a destination rule :
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+name: reviews
+spec:
+host: reviews
+subsets:
+- name: v1
+labels:
+version: v1
+- name: v2
+labels:
+version: v2
+- name: v3
+labels:
+version: v3
+Create a virtual Service :
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+name: reviews
+spec:
+hosts:
+- reviews
+http:
+- route:
+- destination:
+host: reviews
+subset: v1
+weight: 100
+- destination:
+host: reviews
+subset: v3
+weight: 0
+- destination:
+host: reviews
+subset: v2
+weight: 0
+=================================================================================
+
+
+
 
