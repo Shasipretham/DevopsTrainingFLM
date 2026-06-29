@@ -1,0 +1,61 @@
+pipeline {
+    agent {
+        node{
+            label 'prod'
+        }
+    }
+    environment {
+        scannerHome = tool 'mysonar'
+    }
+
+    stages {
+        stage('Code') {
+            steps {
+                git 'https://github.com/Shasipretham/python-code-library-app.git'
+            }
+        }
+        stage('CQA'){
+            steps {
+                
+                withSonarQubeEnv('mysonar') {
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=Myproject"
+                }
+                
+            }
+        }
+        stage('build images'){
+            steps{
+                sh 'docker build -t shasi5612/mypy:auth auth'
+                sh 'docker build -t shasi5612/mypy:book book'
+                sh 'docker build -t shasi5612/mypy:borrow borrow'
+                sh 'docker build -t shasi5612/mypy:db database'
+                sh 'docker build -t shasi5612/mypy:frontend .'
+            }
+        }
+        stage('scan images'){
+            steps{
+                sh 'trivy image shasi5612/mypy:auth >> auth-report.txt'
+                sh 'trivy image shasi5612/mypy:book >> book-report.txt'
+                sh 'trivy image shasi5612/mypy:borrow >> borrow-report.txt'
+                sh 'trivy image shasi5612/mypy:db >> db-report.txt'
+                sh 'trivy image shasi5612/mypy:frontend >> frontend-report.txt'
+            }
+        }
+        stage('push to docker'){
+            steps{
+                withDockerRegistry([credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/']) {
+                    sh 'docker push shasi5612/mypy:auth'
+                    sh 'docker push shasi5612/mypy:book'
+                    sh 'docker push shasi5612/mypy:borrow'
+                    sh 'docker push shasi5612/mypy:db'
+                    sh 'docker push shasi5612/mypy:frontend'
+                }
+            }
+        }
+        stage('deploy project'){
+            steps{
+                sh 'docker stack deploy -c compose.yml library'
+            }
+        }
+    }
+}
