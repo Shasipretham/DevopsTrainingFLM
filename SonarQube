@@ -1,0 +1,31 @@
+=================================================================================
+SONARQUBE
+-------------
+it is used for check CODE QUALITY ANLAYSIS
+when you done unit test also there will have some issues in code to check those things we have to do these
+after building a code w have to use these
+
+BUGS : i will scan bugs
+SECURITY VARANABILITIES : it will see any securty vanarabilties is there in code
+CODE SMELLS : if you didnt maintain a code struture that is code smells
+TEST COVERAGE GAP: when you perforn unit test still they will miss some lines it will cover here
+companlance with coding standards: you will import same package but some time you use unwanthed packages also that type also it will scan
+Technical deubt: you you dont use hardcodes lines there will issue
+ex: password: admi123 but we have to give hard codes values.
+
+in server->
+docker run -itd --name sonar -p 9000:9000 sonarqube:lts-community
+quality gate instruvtions
+
+codecoverage ->80%
+security vanarabilit->0% or A grade
+Bugs: 0% Fail
+Test coverage->= 80%
+code duplication <3%
+Technical debut: <5%
+
+interview question
+--------------------
+1. Bug vs error
+2.how do you integrate sonargube in jenkins
+3.project quality gate rules
