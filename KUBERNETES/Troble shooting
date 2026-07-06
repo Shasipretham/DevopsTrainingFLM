@@ -1,0 +1,70 @@
+Truble shooting
+---------------
+1.CrashLoopBackoff
+what is crashloopbackoff
+->when you create pod inside that container wil create but if it is contunously crashing 
+it will throw error like CrashLoopBackoff
+ why it will crash?
+ is ther any crdentials issue 
+ probe file
+ permissions denid
+ oom kill(out of memorly kill)
+how can debug?
+we have ti describe that pod
+----------------------------------------------------------------------------------------------------
+2.ImagepullBackoff
+what is imagepullbackoff
+-> it was failing in pulling the image
+resons:
+workng image tag or name
+unsername password wrong
+how can debug?
+we have ti describe that pod
+--------------------------------------------------------------------------------------------------
+3.errorImagepull
+
+image is pulled succesfully but when it was creating container it was failing
+----------------------------------------------------------------------------------------------
+4.CreateContainerConfigerr
+it is failed to create conatiner and failed tp loadimage
+resons
+------
+configmaps
+env_varablees
+volume mounts
+how can debug?
+we have ti describe that pod
+----------------------------------------------------------------------------------------------------------
+5.create conatiner error
+image pulled 
+continer creted
+but continer was not started
+on that time it will get these error
+reasons:
+dependencies installtion
+db not started
+permmission issue
+----------------------------------------------------------------------------
+6.OOMKILL
+->out of memory
+->when you create container we will give resorces
+----------------------------------------------------------------
+7,NodeNotReady
+
+if kubelet is offline 
+some nodes will note create
+stortage
+
+we have to check kublet is ready or not
+--------------------------------------------------------------------
+8.podUnseduled
+if it is insufficnt resources
+taint and tolerance
+node selector
+affinity
+----------------------------------------------------------------------
+9.secrets not found
+namespace missmatch
+---------------------------------------------------------------------
+10>pvc pending
+is ther no sutable pv it will get pending
