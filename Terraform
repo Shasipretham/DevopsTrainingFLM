@@ -1,0 +1,131 @@
+TERRAFORM
+------------
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "web" {
+tags = {
+name = "shasi"
+env = "production"
+}
+ami = "ami-06067086cf86c58e6"
+instance_type = "t3.micro"
+key_name = "awsvirginia"
+availability_zone = "us-east-1a"
+count = 1
+
+
+}
+---------------------------------------------
+Terraform Varabels
+----------------------
+in realtime we will write seperate files for provider,varabels
+provider.tf
+-----------
+provider "aws" {
+region = "us-east-1"
+}
+-------------------------------
+resources.tf
+-----------
+resources "aws_instance" "app"{
+tags ={
+name = var.iname
+env = var.envname
+}
+ami = var.ami_id
+instance_type = var.itype
+kay_name = var.key
+avilability_zone = var.zone
+root_Block_device{
+volume_size = var.volume
+}
+}
+=======================================
+varibels.tf
+---------------
+varible "iname" {
+description= "Instance name"
+type= string
+default = "webserver"
+}
+
+varable "envname"{
+description="these is env name"
+type = string
+default = "dev"
+}
+
+varaible "ami_id" {
+discription="these is ami name"
+type= string
+default = "ami-06067086cf86c58e6"
+}
+
+varible "itype" {
+discrption = "istance type"
+type = string
+default= "t3.micro"
+}
+
+varible "key"{
+description = "these keypair value"
+type= string
+default = "awsvirginia"
+}
+varible "zone"{
+description = "zone name"
+type= string
+default = us-east-1a
+}
+varable "volume" {
+description= "these volume"
+type= number
+default = 20
+}
+========================================================
+but in real time we dont mention default values on varable file
+for store varibles we havet to create another filelike
+
+->dev.auto.tfvar
+---------------------------------------------------------------
+iname= "dev-instance"
+envname= "dev"
+ami_id= "ami-06067086cf86c58e6"
+itype= "t3.micro"
+key= "aws"
+zone= "us-east-1b"
+volume= 20
+===================================
+to excute
+===========
+terraform plan -var-file=dev.auto.tfvar
+terraform apply -var-file=dev.auto.tfvar
+==========================================================================
+
+->test.auto.tfvar
+---------------------------------------------------------------
+iname= "test-instance"
+envname= "test"
+ami_id= "ami-06067086cf86c58e6"
+itype= "t3.micro"
+key= "aws"
+zone= "us-east-1b"
+volume= 24
+====================================
+to excute
+------------
+terraform plan -var-file test.auto.tfvar
+terraform apply -var-file test.auto.tfvar
+==============================================================
+
+now enter 
+=>terraform init
+-> terraform fmt->to get script in good indentation
+=============================================================
+we have to create sepeate workspaces for dev,test and prod
+terraform workspace list
+terraform workspace show
+terraform workspace new test
+terraform workspace select default
