@@ -1,0 +1,57 @@
+=================================================================================================
+senario based
+-------------
+1. already in production pod get crashloopback of error
+but HPA was creating more pods what you will do now?
+if get that issue
+1. we have to rollback first
+2.if you get get error in rollback also then we have to pause the deployment it will not take any requests
+3.frezze the HPA
+now investigate
+->pod logs
+->pod describe
+->reason --OOMKILL,probe failed
+rollback error
+->check history what things we used in v1 and v2
+like,image versio,config file,secrets,resources
+
+in feature if you get these error
+we have to use canary deployment
+----------------------------------------------------------------------------------------------------------
+2.Node Under pressure
+your cpu =90%
+memory = 85%
+first we have to check
+kubectl top nodes-> it will show the node cpu performaneces now you see pressure on nodes
+which node getting pressure we have to stop createing pods using taint
+->we have to trasfter pods from that nodes to another nodes..using drain command
+then trouble shoot
+memory pressure
+pid
+disk pressure
+increase that auto scalig
+in feature if you wont gett these error
+maintain monotoring
+------------------------------------------------------------------------------------------------------------
+3.How to design zero downtime
+-> i need zero downtime
+->rollback not more than 30sec4
+->deployment 500pods
+->minimal customer impact
+
+1->we have to create cluster in multiavilabilty zone
+2->Canary deplyment
+3->front end is owrking well service also stared
+now you to konow pod was comunicating with other or not
+we have to checl kubectl exec pod -sh->curl https://doma.com/devops0014/dockerwebapp
+if not connect it have port mis match,check backend started properly or not
+evry time we have to check labels and node selectors
+---------------------------------------------------------------------------
+c1/cd + k8s
+rollback are slow
+drift issues
+manual approvel delay
+
+we have to write CI seperatly and CD seperatly
+automatically we have to update image tag in github
+then if remove latest commit it will go to previous only write
