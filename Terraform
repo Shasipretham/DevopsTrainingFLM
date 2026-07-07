@@ -129,3 +129,62 @@ terraform workspace list
 terraform workspace show
 terraform workspace new test
 terraform workspace select default
+===================================================================================
+==============================================================================================================
+FOR_EACH
+----------
+when we have cresting multiple intances at a time count=3 it will crete 
+3 resources with same config and same resorces
+but now ia want to give diff resources and names
+---------------------------------------------------------------------------------------
+provider.tf
+-------------
+provider "aws" {
+
+  region = "us-east-1"
+}
+-----------------------------------------------------------------------------------------
+resource.tf
+------------
+resource "aws_instance" "mytem" {
+  for_each      = var.flm
+  ami           = each.value.ami_id
+  instance_type = each.value.itype
+  key_name           = each.value.key_id
+}
+
+variable "flm" {
+  description = "these for varabels for each"
+  type = map(object({
+    ami_id = string
+    itype  = string
+    key_id = string
+  }))
+
+}
+---------------------------------------------------------------------------------------
+tera.tfvars
+------------
+flm = {
+
+  web = {
+    ami_id = "ami-06067086cf86c58e6"
+    itype  = "t3.micro"
+    key_id = "awsvirginia"
+  }
+  app = {
+    ami_id = "ami-06067086cf86c58e6"
+    itype  = "t3.micro"
+    key_id = "awsvirginia"
+  }
+-----------------------------------------------------------------------------------------
+if you want to see previoues resources
+-
+terraform state list
+-----------------------------------------------------------------------
+if you want to recreate specfic resource
+terraform plan -replace='aws_instance.mytem["app"]'
+-------------------------------------------------------------
+if want to destroy specific instance
+terraform destroy -target='aws_instance.mytem["app"]'
+======================================================================================================================================
