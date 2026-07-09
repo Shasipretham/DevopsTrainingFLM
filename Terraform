@@ -188,3 +188,132 @@ terraform plan -replace='aws_instance.mytem["app"]'
 if want to destroy specific instance
 terraform destroy -target='aws_instance.mytem["app"]'
 ======================================================================================================================================
+===================================================================
+where sholud be install those when run terraform init?
+->it will install modules from regestry.terraform.io
+->cloud providers,official,partner,open soutce
+if you run provider block it will take latestvesrion
+but in realtime we have to use specfic version in code;
+->registry.terraform.io->select aws->select version->down you can see the script
+--------------------------------------------------------------
+provider.tf
+-----------
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~>6.54.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+}
+terraform init --upgrade
+=================================================================================
+Alias
+-----
+if you want create resource in two regions we have to use Alias
+provider.tf
+-----------
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~>6.54.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+  alias = "virginia"
+}
+provider "aws" {
+region = "ap-south-1"
+alias = "hyderbad"}
+}
+-----------------------------------------------------------------------------------
+resource "aws_instance" "web1" {
+tags = {
+name = "myinstance"
+}
+ami = "ami-002192a70217ac181"
+instance_type = "t3.micro"
+key_name = "awsver"
+avilability_zone = "us-east-1a"
+provider = aws.virginia
+root_Block_device{
+ volume_size = 20
+ 
+}
+resource "aws_instance" "web1" {
+tags = {
+name = "myinstance"
+}
+ami = "ami-002192a70217ac181"
+instance_type = "t3.micro"
+key_name = "awsfar"
+avilability_zone = "us-east-1a"
+provider = aws.hyderbad
+root_Block_device{
+ volume_size = 20
+ 
+}
+------------------------------------------------------------
+if you want to delete singel resource
+terafrom state list
+terraform destroy --target= statefilename
+--------------------------------------------------------------------------------
+Realtime sinario
+-------------------
+you created 2 resorces using terraform
+but you deleted resouce maunully
+terraform will dont know thing if you want to update
+terraform refresh -> it will updated latest changes. 
+==========================================================================================================================
+TERRAFORM OUTPUT
+------------------
+it used for see out like Public ip dns,vpc names...becasue in realtime there is no access to see in aws console
+----------------------------
+output "details"{
+value = [aws_instance.web1.id,aws_instance.web1.public_ip,aws_instance.web1.public_dns]
+}
+=============================================================================================================================
+TERRAFORM META ARGUMENTS
+-----------------------
+when you want to change configuration in instance like changing iam group or changing instance type
+then you use
+terraform apply --replace=aws_intsnace.web1
+it will do delete old on and create new one
+issue: it will cause downtime to remove that problem we have to use TERRAFORM META ARGUMENTS
+-------------------------------------------------------
+resource "aws_instance" "web1" {
+tags = {
+name = "myinstance"
+}
+ami = "ami-002192a70217ac181"
+instance_type = "t3.micro"
+key_name = "awsfar"
+avilability_zone = "us-east-1a"
+provider = aws.hyderbad
+root_Block_device{
+ volume_size = 20
+ }
+ lifecycle {
+   create_before_destroy=true
+   prevent_destroy = true  //it use for avoid a delete resiurces(terrform destroy will wont work)
+   ignore_changes = [tags,instance_type] //it remove the permmisoions to edit the tags
+ 
+ }
+ 
+}
+------------------------------------------------------------------------
+now adding that lifecycle block
+then run 
+terraform apply --replace=aws_intsnace.web1
+now first will create after it will be in running stage.
+
+
+===================================================================
