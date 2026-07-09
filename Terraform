@@ -317,3 +317,76 @@ now first will create after it will be in running stage.
 
 
 ===================================================================
+=========================================================================================================
+Security Group
+--------------
+resource "aws_security_group" "mysg" {
+  name        = "newsg"
+  description = "sg one innshow"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+  }
+}
+---------------------------------------------------------------------------------------
+instance.tf
+-----------
+resource "aws_instance" "myminsta" {
+  tags = {
+    name = "terraform"
+  }
+  ami                    = "ami-002192a70217ac181"
+  instance_type          = "t3.micro"
+  key_name               = "awsvirginia"
+  vpc_security_group_ids = [aws_security_group.mysg.id]
+  root_block_device {
+    volume_size = 20
+  }
+}
+------------------------------------------------------------------------
+->now i want to create s3 bucket to store terraform state file in s3
+s3.tf
+-----
+resource "aws_s3_bucket" "bucket1" {
+  bucket = "shasi918242"
+}
+
+resource "aws_s3_bucket_versioning" "version" {
+  bucket = aws_s3_bucket.bucket1.id
+  versioning_configuration  {
+    status = "Enabled"
+  }
+}
+--------------------------------------------------------------------------------------------------
+now we have to store our terraform state file in s3 bucket
+backend.tf
+------------
+terraform {
+backend "s3"{
+bucket = "shasi918242"
+key = "prod/terraform.tfstate"
+region = "us-east-1"
+}
+}
+
+note: if you done any changes we have to ennter terraform init every time
+=================================================================================================================================
